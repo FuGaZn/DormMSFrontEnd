@@ -164,6 +164,24 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+export const asyncRoutes = [
+  {
+    path: '/dorm',
+    component: Layout,
+    redirect: 'dorm/info',
+    name: 'Dorm',
+    meta: { title: 'Dorm', icon: 'el-icon-s-help', roles: ['admin', 'student'] },
+    children: [
+      {
+        path: 'info',
+        name: 'DormInfo',
+        component: () => import('@/views/dorm/dorminfo'),
+        meta: { title: 'DormInfo', roles: ['admin', 'student'] }
+      }
+    ]
+  },
+]
+
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
