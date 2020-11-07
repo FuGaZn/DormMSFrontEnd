@@ -149,37 +149,48 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export const asyncRoutes = [
   {
     path: '/dorm',
     component: Layout,
-    redirect: 'dorm/info',
-    name: 'Dorm',
-    meta: { title: 'Dorm', icon: 'el-icon-s-help', roles: ['admin', 'student'] },
+    redirect: '/dorm/info',
+    name: '宿舍管理',
+    meta: { title: '宿舍管理', icon: 'el-icon-s-help', roles: ['admin', 'teacher','student'] },
     children: [
       {
         path: 'info',
-        name: 'DormInfo',
-        component: () => import('@/views/dorm/dorminfo'),
-        meta: { title: 'DormInfo', roles: ['admin', 'student'] }
+        name: '宿舍信息',
+        component: () => import('@/views/dorm/index'),
+        meta: { title: '宿舍信息', roles: ['admin', 'teacher', 'student'] }
       }
     ]
   },
+  {
+    path: '/bed',
+    component: Layout,
+    redirect: '/bed/info',
+    name: '床位管理',
+    meta: { title: '床位管理', icon: 'el-icon-s-help', roles: ['admin', 'student', 'teacher'] },
+    children: [
+      {
+        path: 'info',
+        name: '床位信息',
+        component: () => import('@/views/bed/index'),
+        meta: { title: '床位信息', roles: ['admin', 'teacher', 'student'] }
+      },
+      {
+        path: 'add',
+        name: '添加床位',
+        component: () => import('@/views/bed/add'),
+        meta: { title: '添加床位', roles: ['admin', 'teacher'] }
+      },
+    ]
+  },
+
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
@@ -192,6 +203,7 @@ const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
+  router.options.routes = constantRoutes
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
