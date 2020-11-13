@@ -16,9 +16,9 @@
               Home
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
+          <el-button style="border:0px; border-radius: 0px" @click="modify_password.dialogVisible=true">
+            修改密码
+          </el-button>
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
@@ -28,6 +28,20 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <el-dialog title="修改密码" :visible.sync="modify_password.dialogVisible" width="290px">
+      <el-form :model="modify_password">
+        <el-form-item>
+          <el-input type="password" v-model="modify_password.oldPassword" style="width: 240px" placeholder="输入旧密码" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input type="password" v-model="modify_password.newPassword" placeholder="输入新密码" style="width: 240px"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="modifyPassword" type="primary" style="width: 240px">确定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,13 +61,64 @@ export default {
       'avatar'
     ])
   },
+  data(){
+    return{
+      modify_password:{
+        newPassword:"",
+        oldPassword:"",
+        dialogVisible:false
+      },
+    }
+  },
   methods: {
+    info(type, content){
+      if(type === 0){   //normal info
+        this.$message(content)
+      }else if(type === 1){
+        this.$message({
+          message: content,
+          type : 'success'
+        })
+      }else if(type === 2){
+        this.$message({
+          message: content,
+          type: 'warning'
+        });
+      }else if(type === 3){
+        this.$message.error(content);
+      }
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    modifyPassword(){
+      var oldPasswd = this.modify_password.oldPassword
+      var newPasswd = this.modify_password.newPassword
+      if(oldPasswd == ''){
+        this.info(2,'请填入旧密码')
+        return
+      }
+      if (newPasswd == ''){
+        this.info(2,'请填入新密码')
+        return
+      }
+      if (newPasswd === oldPasswd){
+        this.info(2,'新密码不能与原密码相同')
+        return
+      }
+      var _this = this
+      console.log("navbar")
+      this.$store.dispatch('user/modifyPwd', this.modify_password).then(() => {
+        this.info(1,'修改成功，请重新登录')
+        this.modify_password.dialogVisible=false
+        this.logout()
+      }).catch(() => {
+        this.loading = false
+      })
     }
   }
 }

@@ -16,6 +16,14 @@ export function getInfo(token) {
   })
 }
 
+export function modifyPwd(oldPassword, newPassword) {
+  return request({
+    url: '/user/modify/pwd',
+    method: 'post',
+    params: { oldPassword, newPassword }
+  })
+}
+
 export function logout() {
   return request({
     url: '/user/logout',
