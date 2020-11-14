@@ -61,42 +61,59 @@ export const asyncRoutes = [
   {
     path: '/dorm',
     component: Layout,
-    redirect: '/dorm/info',
-    name: '宿舍管理',
-    meta: { title: '宿舍管理', icon: 'el-icon-house', roles: ['admin', 'teacher','student'] },
+    redirect: '/dorm/data',
+    name: '宿舍',
+    meta: { title: '宿舍', icon: 'el-icon-house', roles: ['senior', 'ordinary'] },
     children: [
       {
-        path: 'info',
-        name: '宿舍信息',
+        path: 'data',
+        name: '宿舍统计',
         component: () => import('@/views/dorm/index'),
-        meta: { title: '宿舍信息', roles: ['admin', 'teacher', 'student'] }
+        meta: { title: '宿舍统计', roles: ['senior', 'ordinary'] }
       },
       {
-        path: 'add',
-        name: '添加宿舍',
-        component: () => import('@/views/dorm/add'),
-        meta: { title: '添加宿舍', roles: ['admin', 'teacher'] }
-      }
+        path: 'building/:bid',
+        name: '楼',
+        component: () => import('@/views/dorm/buildingTable')
+      },
+      {
+        path: 'manage',
+        name: '宿舍管理',
+        component: () => import('@/views/dorm/manage'),
+        meta: { title: '宿舍管理', roles: ['senior'] }
+      },
+      {
+        path: 'allocate',
+        name: '分配宿舍',
+        component: () => import('@/views/dorm/allocate'),
+        meta: { title: '分配宿舍', roles: ['ordinary'] }
+      },
+      {
+        path: 'change',
+        name: '退宿/换宿',
+        component: () => import('@/views/dorm/changeDorm'),
+        meta: { title: '退宿/换宿', roles: ['ordinary'] }
+      },
     ]
   },
   {
-    path: '/bed',
+    path: '/user',
     component: Layout,
-    redirect: '/bed/info',
-    name: '床位管理',
-    meta: { title: '床位管理', icon: 'bed', roles: ['admin', 'student', 'teacher'] },
+    redirect: '/user/back',
+    name: '用户',
+    meta: { title: '用户', icon: 'el-icon-user', roles: ['senior'] },
     children: [
       {
-        path: 'info',
-        name: '床位信息',
-        component: () => import('@/views/bed/index'),
-        meta: { title: '床位信息', roles: ['admin', 'teacher', 'student'] }
+        path: 'back',
+        name: '后台用户',
+        component: () => import('@/views/user/backUser'),
+        meta: { title: '后台用户', roles: ['senior'] }
       },
       {
-        path: 'add',
-        name: '添加床位',
-        component: () => import('@/views/bed/add'),
-        meta: { title: '添加床位', roles: ['admin', 'teacher'] }
+        path: 'student',
+        name: '学生管理',
+        component: () => import('@/views/user/student'),
+        meta: { title: '学生管理', roles: ['senior'] }
       },
     ]
   },

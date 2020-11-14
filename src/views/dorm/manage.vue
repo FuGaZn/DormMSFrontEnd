@@ -1,12 +1,12 @@
 <template>
 <div>
-  bed info
+
 </div>
 </template>
 
 <script>
 export default {
-name: "info"
+  name: "add"
 }
 </script>
 
