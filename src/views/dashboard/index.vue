@@ -4,20 +4,22 @@
     <div>
       <h2>您大概想要？</h2>
       <el-tag type="success" style="margin: 10px" ><a @click="dormManage">宿舍管理</a></el-tag>
-      <el-tag type="info" style="margin: 10px"><a @click="dormData">宿舍统计信息</a></el-tag>
-      <el-tag type="warning" style="margin: 10px"><a @click="userBack">后台用户管理</a></el-tag>
-      <el-tag type="danger" style="margin: 10px"><a @click="userStudent">学生管理</a></el-tag>
-      <el-tag type="warning" style="margin: 10px"><a @click="allocate">分配宿舍</a></el-tag>
-      <el-tag type="success" style="margin: 10px"><a @click="changeDorm">退宿</a></el-tag>
+      <el-tag v-permission="['senior']" type="warning" style="margin: 10px"><a @click="userBack">后台用户管理</a></el-tag>
+      <el-tag v-permission="['senior']" type="danger" style="margin: 10px"><a @click="userStudent">学生管理</a></el-tag>
+      <el-tag v-permission="['ordinary']" type="warning" style="margin: 10px"><a @click="allocate">分配宿舍</a></el-tag>
+      <el-tag v-permission="['ordinary']" type="success" style="margin: 10px"><a @click="changeDorm">退宿</a></el-tag>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
+import permission from "@/directive/index";
 export default {
   name: 'Dashboard',
+  directives:{
+    permission
+  },
   computed: {
     ...mapGetters([
       'name',

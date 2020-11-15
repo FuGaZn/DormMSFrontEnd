@@ -30,3 +30,17 @@ export function logout() {
     method: 'post'
   })
 }
+export function modifyRole(data) {
+  return request({
+    url: '/user/back/modify',
+    method: 'post',
+    data
+  })
+}
+export function listUser() {
+  return request({
+    url: '/user/back/list',
+    method: 'get'
+  })
+}
+

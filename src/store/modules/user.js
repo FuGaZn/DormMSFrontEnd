@@ -1,4 +1,4 @@
-import { login, logout, getInfo,modifyPwd } from '@/api/user'
+import { login, logout, getInfo,modifyPwd, modifyRole, listUser } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -69,9 +69,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
         const { name, avatar, roles } = data
-
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
@@ -103,6 +101,26 @@ const actions = {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
+    })
+  },
+
+  modifyRole({commit}, userVO){
+    return new Promise((resolve, reject) => {
+      modifyRole(userVO).then(response => {
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  listUser({commit}){
+    return new Promise((resolve, reject) =>{
+      listUser().then(response=>{
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

@@ -15,7 +15,7 @@
             </div>
             <div class="card-text-item">
               <span class="card-text-item-topic">空闲宿舍</span>
-              <span class="card-text-item-value">{{item.dormEmpty}}</span>
+              <span class="card-text-item-value">{{ item.dormEmpty }}</span>
             </div>
             <div class="card-text-item">
               <span class="card-text-item-topic">床位总数</span>
@@ -43,8 +43,8 @@ export default {
   name: "info",
   data() {
     return {
-      totalData:{
-        buildings:2,
+      totalData: {
+        buildings: 2,
         dormTotal: 100,
         dormEmpty: 20,
         bedTotal: 100,

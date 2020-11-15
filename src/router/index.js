@@ -66,21 +66,15 @@ export const asyncRoutes = [
     meta: { title: '宿舍', icon: 'el-icon-house', roles: ['senior', 'ordinary'] },
     children: [
       {
-        path: 'data',
-        name: '宿舍统计',
-        component: () => import('@/views/dorm/index'),
-        meta: { title: '宿舍统计', roles: ['senior', 'ordinary'] }
-      },
-      {
         path: 'building/:bid',
         name: '楼',
-        component: () => import('@/views/dorm/buildingTable')
+        component: () => import('@/views/dorm/building')
       },
       {
         path: 'manage',
         name: '宿舍管理',
         component: () => import('@/views/dorm/manage'),
-        meta: { title: '宿舍管理', roles: ['senior'] }
+        meta: { title: '宿舍管理', roles: ['senior','ordinary'] }
       },
       {
         path: 'allocate',
