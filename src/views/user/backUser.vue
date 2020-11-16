@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="position: absolute; left: 70px; top: 40px">
-      <el-button size="mini" type="primary" icon="el-icon-plus" @click="">添加</el-button>
+      <el-button size="mini" type="primary" icon="el-icon-plus" @click="addUserDialogVisible=true">添加</el-button>
     </div>
     <div style="position: absolute;right: 60px; top: 40px">
       <el-input auto-complete="off" size="mini" v-model="searchWord" style="width: 260px" placeholder="请输入内容">
@@ -50,8 +50,30 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitEditForm">确认修改</el-button>
           <el-button @click="editDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="submitEditForm">确认修改</el-button>
+
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="添加用户" :visible.sync='addUserDialogVisible'>
+      <el-form :model="addUser" size="small" :rules="addFormRules">
+        <el-form-item label="工号" required prop="workerID">
+          <el-input style="width: 240px" v-model="addUser.workerID" placeholder="输入工号"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" required prop="name">
+          <el-input style="width: 240px" v-model="addUser.name" placeholder="输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="角色" required>
+          <el-checkbox-group v-model="addUser.rolesShow">
+            <el-checkbox label="高级管理员"></el-checkbox>
+            <el-checkbox label='宿舍管理员'></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item>
+
+          <el-button @click="addUserDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="submitAddForm(addUser)">确认</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -65,6 +87,15 @@ export default {
   },
   data() {
     return {
+      addFormRules: {
+        name: [
+          {required: true, message: '请输入姓名', trigger: 'blur'},
+        ],
+        workerID: [
+          {required: true, message: '请输入工号', trigger: 'blur'}
+        ],
+      },
+      addUserDialogVisible: false,
       searchWord: '',
       roleList: [{text: '高级管理员', value: "senior"}, {text: '宿舍管理员', value: 'ordinary'}, {text: '其他', value: ''}],
       editDialogVisible: false,
@@ -73,15 +104,48 @@ export default {
         workerID: '200101',
         name: 'admin',
         rolesShow: ['高级管理员'],
-        roles:['senior'],
+        roles: ['senior'],
         roleString: '高级管理员',
         lastLoginTime: '2020/11/13 20:28:32',
+        dialogVisible: false
+      },
+      addUser: {
+        uid: 0,
+        workerID: '',
+        name: '',
+        rolesShow: [],
+        roles: [],
+        roleString: '',
         dialogVisible: false
       },
       users: []
     }
   },
   methods: {
+    submitAddForm(form) {
+      console.log(this.addUser)
+      let userVO = {
+        workerID: form.workerID,
+        name: form.name,
+        roles: []
+      }
+      for (let i in form.rolesShow) {
+        for (let j in this.roleList) {
+          if (form.rolesShow[i] === this.roleList[j].text) {
+            userVO.roles.push(this.roleList[j].value)
+          }
+        }
+      }
+      this.$store.dispatch("user/addUser", userVO).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '成功',
+          type: 'success'
+        });
+        this.addUserDialogVisible = false
+        this.refreshTable()
+      }).catch()
+    },
     filterRole(value, row) {
       return row.roles.includes(value)
     },
@@ -89,21 +153,21 @@ export default {
       console.log(word)
     },
     refreshTable() {
-      this.$store.dispatch('user/listUser').then(response=>{
+      this.$store.dispatch('user/listUser').then(response => {
         const {data} = response
         const {users} = data
-        for (let i in users){
+        for (let i in users) {
           let user = users[i]
           user.dialogVisible = false
-          user.rolesShow=[]
+          user.rolesShow = []
           let roleString = ' '
-          for (let j in user.roles){
-            if(user.roles[j] === 'senior'){
-              roleString += (' '+'高级管理员')
+          for (let j in user.roles) {
+            if (user.roles[j] === 'senior') {
+              roleString += (' ' + '高级管理员')
               user.rolesShow.push('高级管理员')
-            }else if (user.roles[j] === 'ordinary'){
+            } else if (user.roles[j] === 'ordinary') {
               user.rolesShow.push('宿舍管理员')
-              roleString += (' '+'宿舍管理员')
+              roleString += (' ' + '宿舍管理员')
             }
           }
           user.roleString = roleString
@@ -113,15 +177,15 @@ export default {
       })
     },
     submitEditForm() {
-      let userVO={
+      let userVO = {
         uid: this.editUser.uid,
         workerID: this.editUser.workerID,
         name: this.editUser.name,
         roles: [],
       }
-      for (let i in this.editUser.rolesShow){
-        for (let j in this.roleList){
-          if (this.editUser.rolesShow[i] === this.roleList[j].text){
+      for (let i in this.editUser.rolesShow) {
+        for (let j in this.roleList) {
+          if (this.editUser.rolesShow[i] === this.roleList[j].text) {
             userVO.roles.push(this.roleList[j].value)
           }
         }

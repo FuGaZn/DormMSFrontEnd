@@ -1,4 +1,4 @@
-import { login, logout, getInfo,modifyPwd, modifyRole, listUser } from '@/api/user'
+import { login, logout, getInfo,modifyPwd, modifyRole, listUser, addUser } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -114,6 +114,15 @@ const actions = {
     })
   },
 
+  addUser({commit}, userVO){
+    return new Promise((resolve, reject) => {
+      addUser(userVO).then(response => {
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
   listUser({commit}){
     return new Promise((resolve, reject) =>{
       listUser().then(response=>{

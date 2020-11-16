@@ -44,3 +44,10 @@ export function listUser() {
   })
 }
 
+export function addUser(data){
+  return request({
+    url: '/user/back/add',
+    method: 'post',
+    data
+  })
+}

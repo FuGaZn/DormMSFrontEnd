@@ -2,7 +2,7 @@
 <div>
   <h1 style="margin-left: 50px; color: rgb(60,60,60)">宿舍楼</h1>
   <div style="position: absolute;right: 100px; top: 40px">
-    <el-button size="mini" type="primary" icon="el-icon-plus">增加宿舍楼</el-button>
+    <el-button size="mini" type="primary" icon="el-icon-plus" @click="addBuildingDialogShow=true">增加宿舍楼</el-button>
   </div>
   <div style="margin-left: 50px;margin-top: 30px">
     <el-table :data="buildings" style="width: 100%" :default-sort="{prop: 'dormName'}" show-summary sum-text="合计">
@@ -37,6 +37,21 @@
       </el-table-column>
     </el-table>
   </div>
+
+  <el-dialog title="添加宿舍楼" :visible.sync='addBuildingDialogShow'>
+    <el-form :model="add_building" size="small">
+      <el-form-item label="楼号" required prop="buildingID">
+        <el-input style="width: 240px" v-model="add_building.buildingID"></el-input>
+      </el-form-item>
+      <el-form-item label="层数" required prop="floors">
+        <el-input-number style="width: 240px"  v-model="add_building.floors" controls-position="right" :min="1" :max="20"></el-input-number>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="addBuildingDialogShow = false">取消</el-button>
+        <el-button type="primary" @click="submitAddForm(add_building)">确认</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </div>
 </template>
 
@@ -45,8 +60,16 @@ import permission from "@/directive/index";
 export default {
   name: "add",
   directives:{permission},
+  created() {
+    this.refreshBuildingsTable()
+  },
   data(){
     return{
+      add_building:{
+        buildingID:'',
+        floors:1,
+      },
+      addBuildingDialogShow:false,
       buildings:[
         {
           buildingID:'13',
@@ -69,6 +92,26 @@ export default {
     }
   },
   methods:{
+    refreshBuildingsTable(){
+      this.$store.dispatch("listBuildings").then(response=>{
+        const {data} = response
+        const {buildings} = data
+        this.buildings = buildings
+      })
+    },
+    submitAddForm(form){
+      this.$store.dispatch('addBuilding',form).then(()=>{
+     //   console.log(response)
+        this.addBuildingDialogShow=false
+        this.buildings.push(form)
+        this.$notify({
+          title: '成功',
+          message: '添加成功',
+          type: 'success'
+        });
+      }).catch()
+     // console.log(this.$store)
+    },
     showBuildingData(id) {
       this.$router.push(`/dorm/building/` + id)
     },
