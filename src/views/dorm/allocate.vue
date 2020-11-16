@@ -10,7 +10,7 @@
                 style="width: 250px; margin-left: 20px;margin-right: 20px;margin-bottom: 20px"></el-input>
       <el-input v-model="dormName" placeholder="输入宿舍号"
                 style="width: 250px; margin-left: 20px;margin-right: 20px;margin-bottom: 20px"></el-input>
-      <el-button type="primary" style="width: 250px; margin-left: 20px;margin-right: 20px;margin-bottom: 20px">分配宿舍
+      <el-button @click="allocateDorm" type="primary" style="width: 250px; margin-left: 20px;margin-right: 20px;margin-bottom: 20px">分配宿舍
       </el-button>
     </div>
     <div style="width: 290px;height: 240px; float:left; margin-top: -240px;margin-left: 370px;
@@ -35,6 +35,23 @@ export default {
     return {
       studentID: '',
       dormName: '',
+    }
+  },
+  methods:{
+    allocateDorm(){
+      if (this.studentID==='' || this.dormName === ''){
+        this.$message({
+          message: '信息不能为空',
+          type: 'warning'
+        });
+      }else{
+        this.$store.dispatch('allocate',{studentID: this.studentID, dormName:this.dormName}).then(()=>{
+          this.$message({
+            message: '宿舍分配成功！',
+            type: 'success'
+          });
+        })
+      }
     }
   }
 }

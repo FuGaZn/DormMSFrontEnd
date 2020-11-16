@@ -48,7 +48,6 @@ const actions = {
   },
 
   modifyPwd({commit}, ruleForm){
-    console.log(ruleForm)
     const {oldPassword, newPassword} = ruleForm
     return new Promise((resolve, reject) => {
       modifyPwd(oldPassword, newPassword).then(response => {

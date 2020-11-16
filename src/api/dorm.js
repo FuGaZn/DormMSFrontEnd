@@ -8,6 +8,13 @@ export function addBuilding(data){
     data
   })
 }
+export function addDorm(data){
+  return request({
+    url: '/dorm/add',
+    method:'post',
+    data
+  })
+}
 
 export function listBuildings(){
   return request({
@@ -15,3 +22,19 @@ export function listBuildings(){
     method: 'get'
   })
 }
+export function listDorms(buildingID){
+  return request({
+    url: '/dorm/list',
+    method: 'get',
+    params:{buildingID}
+  })
+}
+export function listStudentsInDorm(dormName){
+  return request({
+    url: '/dorm/student/list',
+    method: 'get',
+    params:{dormName}
+  })
+}
+
+

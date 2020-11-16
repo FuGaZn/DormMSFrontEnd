@@ -73,7 +73,7 @@
     </el-dialog>
 
     <el-dialog title="添加学生信息" :visible.sync='addDialogVisible'>
-      <el-form style="margin-left: 50px" :model="addStudent" size="small" :rules="addFormRules" ref="addStudent">
+      <el-form style="margin-left: 50px" :model="addStudent" size="small" :rules="addFormRules" ref="addStudent" label-width="100px" label-position="right">
         <el-form-item label="学号" required prop="studentID">
           <el-input v-model="addStudent.studentID" style="width: 150px"></el-input>
         </el-form-item>
@@ -84,7 +84,7 @@
           <el-radio v-model="addStudent.genderShow" label="男">男</el-radio>
           <el-radio v-model="addStudent.genderShow" label="女">女</el-radio>
         </el-form-item>
-        <el-form-item label="宿舍" required prop="dormName">
+        <el-form-item label="宿舍">
           <el-input v-model="addStudent.dormName" style="width: 150px"></el-input>
         </el-form-item>
         <el-form-item>
@@ -109,22 +109,18 @@ export default {
         studentID: [
           { required: true, message: '请输入学号', trigger: 'blur' }
         ],
-        dormName: [
-          {required: true, message: '请输入宿舍', trigger: 'blur' }
-        ],
       },
       addStudent: {
         studentID: '',
         name: '',
-        gender: '1',
+        gender: 1,
         genderShow: '男',
         dormName: '',
         building: '',
         floor: 0
-
       },
       genderList: [{text: '男', value: 1}, {text: '女', value: 0}],
-      buildingList: [{text: '13', value: '13'}, {text: '14', value: '14'}, {text: '5', value: '5'},],
+      buildingList: [],
       searchWord: '',
       editDialogVisible: false,
       modifiedDorm: {
@@ -140,42 +136,30 @@ export default {
         floor: 5
 
       },
-      students: [
-        {
-          studentID: '2001210241',
-          name: 'fjx',
-          gender: '1',
-          genderShow: '男',
-          dormName: 'E3524',
-          building: '13',
-          floor: 5
-
-        },
-        {
-          studentID: '2001210554',
-          name: 'llc',
-          gender: '1',
-          genderShow: '男',
-          dormName: '5204',
-          building: '5',
-          floor: 2
-
-        },
-        {
-          studentID: '2001210201',
-          name: 'joke',
-          gender: '0',
-          genderShow: '女',
-          dormName: 'E3224',
-          building: '14',
-          floor: 2
-
-        },
-
-      ]
+      students: []
     }
   },
+  created() {
+    this.refreshStudentTable()
+  },
   methods: {
+    refreshStudentTable(){
+      this.$store.dispatch("listStudents").then(response=>{
+        const {data} = response
+        const {students} = data
+        this.students = students
+
+        for (let i in students){
+          let item = {
+            text:students[i].building,
+            value:students[i].building
+          }
+          if (!this.buildingList.includes(item)){
+            this.buildingList.push(item)
+          }
+        }
+      })
+    },
     info(type, content){
       if(type === 0){   //normal info
         this.$message(content)
@@ -194,11 +178,17 @@ export default {
       }
     },
     submitAddForm(formName){
-      if (formName.name == '' || formName.studentID=='' || formName.dormName == ''){
+      if (formName.name == '' || formName.studentID==''){
         this.info(3,'信息不能为空')
       }else{
         this.addDialogVisible = false
         this.students.push(this.addStudent)
+        this.$store.dispatch("addStudent",formName).then(()=>{
+          this.$message({
+            type: 'success',
+            message: '成功!'
+          });
+        })
       }
     },
     //退宿
@@ -248,11 +238,10 @@ export default {
       this.modifiedDorm = this.copy(row.dorm)
     },
     copy(obj1) {
-      var obj2 = {};
-      for (var i in obj1) {
+      let obj2 = {};
+      for (let i in obj1) {
         obj2[i] = obj1[i];
       }
-      //    console.log(obj1 === obj2)
       return obj2;
     }
   }

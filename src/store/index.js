@@ -6,6 +6,8 @@ import settings from './modules/settings'
 import user from './modules/user'
 import permission from "@/store/modules/permission";
 import dorm from './modules/dorm'
+import student from "@/store/modules/student";
+import dormAllocate from "@/store/modules/dormAllocate";
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -14,7 +16,9 @@ const store = new Vuex.Store({
     settings,
     user,
     permission,
-    dorm
+    dorm,
+    student,
+    dormAllocate
   },
   getters
 })
