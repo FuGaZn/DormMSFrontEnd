@@ -5,7 +5,7 @@
       <el-input size="mini" v-model="searchWord" style="width: 260px" placeholder="请输入宿舍名">
         <el-button size="mini" slot="append" icon="el-icon-search" @click="search(searchWord)">搜索</el-button>
       </el-input>
-      <el-button style="margin-left: 20px" size="mini" type="primary" icon="el-icon-plus" @click="addDormVisible=true">
+      <el-button v-permission="['senior']" style="margin-left: 20px" size="mini" type="primary" icon="el-icon-plus" @click="addDormVisible=true">
         增加宿舍
       </el-button>
     </div>

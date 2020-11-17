@@ -2,7 +2,7 @@
   <div>
     <h1 style="margin-left: 50px; color: rgb(60,60,60)">宿舍楼</h1>
     <div style="position: absolute;right: 100px; top: 40px">
-      <el-button size="mini" type="primary" icon="el-icon-plus" @click="addBuildingDialogShow=true">增加宿舍楼</el-button>
+      <el-button v-permission="['senior']" size="mini" type="primary" icon="el-icon-plus" @click="addBuildingDialogShow=true">增加宿舍楼</el-button>
     </div>
     <div style="margin-left: 50px;margin-top: 30px">
       <el-table :data="buildings" style="width: 100%" :default-sort="{prop: 'dormName'}" show-summary sum-text="合计">

@@ -60,14 +60,18 @@
           <el-radio v-model="editStudent.genderShow" label="男">男</el-radio>
           <el-radio v-model="editStudent.genderShow" label="女">女</el-radio>
         </el-form-item>
+        <!--
         <el-form-item label="宿舍">
           <el-input v-model="modifiedDorm.dormName" style="width: 150px"></el-input>
         </el-form-item>
-
+        -->
         <el-form-item>
           <el-button type="primary" @click="submitEditForm">确认修改</el-button>
+          <!--
           <el-button type="danger" @click="removeDorm(editStudent.studentID)">退宿</el-button>
+          -->
           <el-button @click="editDialogVisible=false">取消</el-button>
+
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -84,9 +88,11 @@
           <el-radio v-model="addStudent.genderShow" label="男">男</el-radio>
           <el-radio v-model="addStudent.genderShow" label="女">女</el-radio>
         </el-form-item>
+        <!--
         <el-form-item label="宿舍">
           <el-input v-model="addStudent.dormName" style="width: 150px"></el-input>
         </el-form-item>
+        -->
         <el-form-item>
           <el-button type="primary" @click="submitAddForm(addStudent)">添加</el-button>
           <el-button @click="addDialogVisible=false">取消</el-button>
