@@ -1,5 +1,5 @@
 import { resetRouter } from '@/router'
-import {addBuilding, listBuildings, listDorms,addDorm,listStudentsInDorm} from '@/api/dorm'
+import {addBuilding, listBuildings, listDorms, addDorm, listStudentsInDorm, listSimpleBuildings} from '@/api/dorm'
 
 const actions = {
   addBuilding({commit}, building){
@@ -25,6 +25,15 @@ const actions = {
   listBuildings({commit}){
     return new Promise((resolve, reject) =>{
       listBuildings().then(response=>{
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  listSimpleBuildings({commit}){
+    return new Promise((resolve, reject) =>{
+      listSimpleBuildings().then(response=>{
         resolve(response)
       }).catch(error => {
         reject(error)

@@ -7,6 +7,7 @@
         </el-tooltip>
         <el-button size="mini" type="primary" icon="el-icon-download">导出Excel</el-button>
         <el-button size="mini" type="primary" icon="el-icon-plus" @click="addDialogVisible=true">添加</el-button>
+        <el-button size="mini" type="primary" icon="el-icon-plus" @click="randomCreate">批量生成</el-button>
       </el-button-group>
     </div>
     <div style="position: absolute;right: 60px; top: 40px">
@@ -149,6 +150,9 @@ export default {
     this.refreshStudentTable()
   },
   methods: {
+    randomCreate(){
+      this.$store.dispatch("randomCreate")
+    },
     refreshStudentTable(){
       this.$store.dispatch("listStudents").then(response=>{
         const {data} = response

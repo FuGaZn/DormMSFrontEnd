@@ -49,8 +49,9 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     /* has no token*/
-
-    if (whiteList.indexOf(to.path) !== -1) {
+    if (to.path === '/dorm/select') {
+      next()
+    } else if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
     } else {

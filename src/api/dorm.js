@@ -22,6 +22,12 @@ export function listBuildings(){
     method: 'get'
   })
 }
+export function listSimpleBuildings(){
+  return request({
+    url: '/dorm/building/simpleList',
+    method: 'get'
+  })
+}
 export function listDorms(buildingID){
   return request({
     url: '/dorm/list',
