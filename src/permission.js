@@ -27,6 +27,9 @@ router.beforeEach(async (to, from, next) => {
       // if is logged in, redirect to the home page
       next({path: '/'})
       NProgress.done()
+    } else if(to.path === '/stu/login'){
+      next()
+      NProgress.done()
     } else {
       if (store.getters.roles.length !== 0) {
         next()
@@ -49,8 +52,10 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     /* has no token*/
-    if (to.path === '/dorm/select') {
+    if(to.path == '/stu/login'){
       next()
+    }else if (to.path === '/dorm/select') {
+      next('/stu/login')
     } else if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()

@@ -26,3 +26,25 @@ export function getStudent(studentID){
     params:{studentID}
   })
 }
+export function getBackInfo(studentID){
+  return request({
+    url: '/stu/back',
+    method: 'get',
+    params:{studentID}
+  })
+}
+export function submit(data) {
+  return request({
+    url: '/user/student/submit',
+    method: 'post',
+    data
+  })
+}
+export function stuLogin(id, code) {
+  return request({
+    url: '/stu/login',
+    method: 'post',
+    params:{id, code}
+  })
+}
+

@@ -37,6 +37,14 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/stu/login',
+    component:()=>import('@/views/student/login')
+  },
+  {
+    path:'/stu/info',
+    component:()=>import('@/views/student/info')
+  },
+  {
     path: '/dorm/select',
     component: () => import('@/views/student/select'),
     hidden: true

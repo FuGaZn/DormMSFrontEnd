@@ -21,10 +21,12 @@ export function exchange(id1, id2) {
     method: 'post',
     params: {id1, id2}
   })
-}export function change(studentID, dormName) {
+}
+export function change(studentID, dormName) {
   return request({
     url: '/dorm/change',
     method: 'post',
     params: {studentID, dormName}
   })
 }
+

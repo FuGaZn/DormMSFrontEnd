@@ -1,5 +1,4 @@
-import {addStudent, getStudent, listStudents, randomCreate} from '@/api/student'
-import {addBuilding} from "@/api/dorm";
+import {addStudent, getBackInfo, getStudent, listStudents, randomCreate, stuLogin, submit} from '@/api/student'
 
 const actions = {
   listStudents({commit}){
@@ -31,7 +30,21 @@ const actions = {
         resolve(response)
       })
     })
-  }
+  },
+  submit({commit}, submitForm){
+    return new Promise((resolve, reject)=>{
+      submit(submitForm).then(response => {
+        resolve(response)
+      })
+    })
+  },
+  getBackInfo({commit},studentID) {
+    return new Promise((resolve, reject) =>{
+      getBackInfo(studentID).then(response => {
+        resolve(response)
+      })
+    })
+  },
 }
 
 export default {
